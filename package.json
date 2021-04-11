@@ -1,0 +1,26 @@
+{
+  "name": "weathered",
+  "version": "0.0.0",
+  "description": "A JavaScript wrapper for the National Weather Service API",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "keywords": [
+    "weather",
+    "nws",
+    "national",
+    "weather",
+    "service",
+    "forecast"
+  ],
+  "author": "Jason Sanford",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.1.4"
+  }
+}
