@@ -1,6 +1,6 @@
 {
   "name": "weathered",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A JavaScript wrapper for the National Weather Service API",
   "main": "dist/index.js",
   "scripts": {
@@ -38,5 +38,5 @@
       "<rootDir>/dist/",
       "<rootDir>/node_modules/"
     ]
-}
+  }
 }
