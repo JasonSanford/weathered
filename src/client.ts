@@ -27,7 +27,7 @@ const processOptions = (options: AlertOptions) => {
   return params;
 };
 
-export default class Client {
+class Client {
   options: ClientOptions;
   
   constructor(options?: ClientOptions) {
@@ -61,3 +61,5 @@ export default class Client {
     return this.getUrl(url);
   }
 }
+
+export { Client };
