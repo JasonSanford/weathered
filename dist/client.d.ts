@@ -6,6 +6,7 @@ export default class Client {
     private getUrl;
     getAlertsForPoint(latitude: number, longitude: number): Promise<any>;
     getActiveAlertsForPoint(latitude: number, longitude: number): Promise<any>;
+    getAlertsForArea(area: Area | Area[]): Promise<any>;
     getActiveAlertsForArea(area: Area | Area[]): Promise<any>;
     private getPoint;
     getForecastForPoint(latitude: number, longitude: number, forecastType: ForecastType): Promise<any>;

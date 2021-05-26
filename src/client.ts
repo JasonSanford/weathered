@@ -34,6 +34,13 @@ export default class Client {
     return this.getPath(path);
   }
 
+  getAlertsForArea(area: Area | Area[]) {
+    const areaParam = Array.isArray(area) ? area.join(',') : area;
+    const params = new URLSearchParams({ area: areaParam });
+    const path = `alerts?${params.toString()}`;
+    return this.getPath(path);
+  }
+
   getActiveAlertsForArea(area: Area | Area[]) {
     const areaParam = Array.isArray(area) ? area.join(',') : area;
     const params = new URLSearchParams({ area: areaParam });

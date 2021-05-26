@@ -27,6 +27,12 @@ class Client {
         const path = `alerts/active?point=${latitude},${longitude}`;
         return this.getPath(path);
     }
+    getAlertsForArea(area) {
+        const areaParam = Array.isArray(area) ? area.join(',') : area;
+        const params = new URLSearchParams({ area: areaParam });
+        const path = `alerts?${params.toString()}`;
+        return this.getPath(path);
+    }
     getActiveAlertsForArea(area) {
         const areaParam = Array.isArray(area) ? area.join(',') : area;
         const params = new URLSearchParams({ area: areaParam });
