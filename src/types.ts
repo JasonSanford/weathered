@@ -83,6 +83,7 @@ interface ForecastProperties {
   elevation: { value: number, unitCode: string };
   periods: ForecastPeriod[];
 }
+
 interface ForecastResponse {
   properties: ForecastProperties;
 }
@@ -101,6 +102,7 @@ interface AlertsFeature {
     description: string;
   };
 }
+
 interface AlertsResponse {
   features: AlertsFeature[];
 }
