@@ -1,13 +1,10 @@
-import { ClientOptions, ForecastType, Area } from './types';
+import { ClientOptions, ForecastType, AlertOptions } from './types';
 export default class Client {
     options: ClientOptions;
     constructor(options?: ClientOptions);
     private getPath;
     private getUrl;
-    getAlertsForPoint(latitude: number, longitude: number): Promise<any>;
-    getActiveAlertsForPoint(latitude: number, longitude: number): Promise<any>;
-    getAlertsForArea(area: Area | Area[]): Promise<any>;
-    getActiveAlertsForArea(area: Area | Area[]): Promise<any>;
+    getAlerts(options: AlertOptions): Promise<any>;
     private getPoint;
-    getForecastForPoint(latitude: number, longitude: number, forecastType: ForecastType): Promise<any>;
+    getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<any>;
 }

@@ -8,6 +8,20 @@ const defaultOptions = {
     userAgent: 'weathered module version 0.0.0'
 };
 const API_ROOT = 'https://api.weather.gov/';
+const processOptions = (options) => {
+    const { area, latitude, longitude, urgency } = options;
+    const params = new URLSearchParams();
+    if (area) {
+        params.append('area', Array.isArray(area) ? area.join(',') : area);
+    }
+    if (latitude !== undefined && longitude !== undefined) {
+        params.append('point', `${latitude},${longitude}`);
+    }
+    if (urgency) {
+        params.append('urgency', urgency);
+    }
+    return params;
+};
 class Client {
     constructor(options) {
         this.options = Object.assign(defaultOptions, options);
@@ -19,31 +33,16 @@ class Client {
         const resp = await cross_fetch_1.default(url);
         return await resp.json();
     }
-    getAlertsForPoint(latitude, longitude) {
-        const path = `alerts?point=${latitude},${longitude}`;
-        return this.getPath(path);
-    }
-    getActiveAlertsForPoint(latitude, longitude) {
-        const path = `alerts/active?point=${latitude},${longitude}`;
-        return this.getPath(path);
-    }
-    getAlertsForArea(area) {
-        const areaParam = Array.isArray(area) ? area.join(',') : area;
-        const params = new URLSearchParams({ area: areaParam });
-        const path = `alerts?${params.toString()}`;
-        return this.getPath(path);
-    }
-    getActiveAlertsForArea(area) {
-        const areaParam = Array.isArray(area) ? area.join(',') : area;
-        const params = new URLSearchParams({ area: areaParam });
-        const path = `alerts/active?${params.toString()}`;
+    getAlerts(options) {
+        const params = processOptions(options);
+        const path = `alerts${options.active ? '/active' : ''}?${params}`;
         return this.getPath(path);
     }
     getPoint(latitude, longitude) {
         const path = `points/${latitude},${longitude}`;
         return this.getPath(path);
     }
-    async getForecastForPoint(latitude, longitude, forecastType) {
+    async getForecast(latitude, longitude, forecastType) {
         const pointResp = await this.getPoint(latitude, longitude);
         const forecastKey = forecastType === 'hourly' ? 'forecastHourly' : 'forecast';
         const url = pointResp.properties[forecastKey];
