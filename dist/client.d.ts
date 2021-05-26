@@ -1,4 +1,4 @@
-import { ClientOptions, ForecastType, AlertOptions } from './types';
+import { ClientOptions, ForecastResponse, ForecastType, AlertOptions } from './types';
 export default class Client {
     options: ClientOptions;
     constructor(options?: ClientOptions);
@@ -6,5 +6,5 @@ export default class Client {
     private getUrl;
     getAlerts(options: AlertOptions): Promise<any>;
     private getPoint;
-    getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<any>;
+    getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<ForecastResponse>;
 }

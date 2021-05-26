@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-import { ClientOptions, PointResp, ForecastType, Area, AlertOptions } from './types';
+import { ClientOptions, PointResponse, ForecastResponse, ForecastType, AlertOptions } from './types';
 
 const defaultOptions: ClientOptions = {
   userAgent: 'weathered module version 0.0.0'
@@ -26,6 +26,7 @@ const processOptions = (options: AlertOptions) => {
 
   return params;
 };
+
 export default class Client {
   options: ClientOptions;
   
@@ -48,12 +49,12 @@ export default class Client {
     return this.getPath(path);
   }
 
-  private getPoint(latitude: number, longitude: number) : Promise<PointResp> {
+  private getPoint(latitude: number, longitude: number) : Promise<PointResponse> {
     const path = `points/${latitude},${longitude}`;
     return this.getPath(path);
   }
 
-  async getForecast(latitude: number, longitude: number, forecastType: ForecastType) {
+  async getForecast(latitude: number, longitude: number, forecastType: ForecastType) : Promise<ForecastResponse> {
     const pointResp = await this.getPoint(latitude, longitude)
     const forecastKey = forecastType === 'hourly' ? 'forecastHourly' : 'forecast';
     const url = pointResp.properties[forecastKey];

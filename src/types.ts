@@ -51,11 +51,40 @@ interface ClientOptions {
   userAgent?: string;
 }
 
-interface PointResp {
+interface PointResponse {
   properties: {
     forecast: string;
     forecastHourly: string;
   }
 }
 
-export { ForecastType, Area, AlertOptions, ClientOptions, PointResp };
+interface ForecastPeriod {
+  number: number;
+  name: string;
+  startTime: string;
+  endTime: string;
+  isDaytime: boolean;
+  temperature: number;
+  temperatureUnit: string;
+  temperatureTrend?: string;
+  windSpeed: string;
+  windDirection: string;
+  icon: string;
+  shortForecast: string;
+  detailedForecast: string;
+}
+interface ForecastProperties {
+  updated: string;
+  units: string;
+  forecastGenerator: string;
+  generatedAt: string;
+  updateTime: string;
+  validTimes: string;
+  elevation: { value: number, unitCode: string };
+  periods: ForecastPeriod[];
+}
+interface ForecastResponse {
+  properties: ForecastProperties;
+}
+
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse };
