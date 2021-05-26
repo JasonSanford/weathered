@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-import { ClientOptions, PointResp, ForecastType } from './types';
+import { ClientOptions, PointResp, ForecastType, Area } from './types';
 
 const defaultOptions: ClientOptions = {
   userAgent: 'weathered module version 0.0.0'
@@ -34,7 +34,14 @@ export default class Client {
     return this.getPath(path);
   }
 
-  getPoint(latitude: number, longitude: number) : Promise<PointResp> {
+  getActiveAlertsForArea(area: Area | Area[]) {
+    const areaParam = Array.isArray(area) ? area.join(',') : area;
+    const params = new URLSearchParams({ area: areaParam });
+    const path = `alerts/active?${params.toString()}`;
+    return this.getPath(path);
+  }
+
+  private getPoint(latitude: number, longitude: number) : Promise<PointResp> {
     const path = `points/${latitude},${longitude}`;
     return this.getPath(path);
   }

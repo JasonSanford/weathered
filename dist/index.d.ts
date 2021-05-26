@@ -1,3 +1,3 @@
 import Client from './client';
-export { ForecastType, ClientOptions, PointResp } from './types';
+export { ForecastType, ClientOptions, PointResp, Area } from './types';
 export default Client;
