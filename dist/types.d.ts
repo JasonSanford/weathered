@@ -67,4 +67,21 @@ interface ForecastProperties {
 interface ForecastResponse {
     properties: ForecastProperties;
 }
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse };
+interface AlertsFeature {
+    id: string;
+    geometry: {
+        type: 'Polygon';
+        coordinates: number[][];
+    };
+    properties: {
+        areaDesc: string;
+        sent: string;
+        effective: string;
+        expries: string;
+        description: string;
+    };
+}
+interface AlertsResponse {
+    features: AlertsFeature[];
+}
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, AlertsResponse };

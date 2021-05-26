@@ -17,7 +17,7 @@ type Urgency = 'immediate' | 'expected' | 'future' | 'past' | 'unknown';
 
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 
-type XOR<T, U> = (T | U) extends object
+type XOR<T, U> = (T | U) extends object // eslint-disable-line
   ? (Without<T, U> & U) | (Without<U, T> & T)
   : T | U;
 
@@ -87,4 +87,22 @@ interface ForecastResponse {
   properties: ForecastProperties;
 }
 
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse };
+interface AlertsFeature {
+  id: string;
+  geometry: {
+    type: 'Polygon',
+    coordinates: number[][];
+  };
+  properties: {
+    areaDesc: string;
+    sent: string;
+    effective: string;
+    expries: string;
+    description: string;
+  };
+}
+interface AlertsResponse {
+  features: AlertsFeature[];
+}
+
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, AlertsResponse };

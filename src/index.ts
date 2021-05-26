@@ -6,6 +6,8 @@ export default Client;
 
 async function go() {
   const client = new Client();
+  const results = await client.getAlerts({ active: true, regionType: 'land', urgency: 'expected' });
+  console.log(results.features[0]);
   // const results = await Promise.all([
   //   client.getAlerts({ active: true }),
   //   client.getAlerts({ active: true, area: 'NC' }),
@@ -13,8 +15,8 @@ async function go() {
   //   client.getAlerts({ active: true, regionType: 'land', urgency: 'expected' }),
   // ]);
   // console.log(results.map(result => result.features.length));
-  const forecast = await client.getForecast(35.6142057, -80.7750328, 'baseline');
-  console.log(forecast.properties.periods[0].name);
+  // const forecast = await client.getForecast(35.6142057, -80.7750328, 'baseline');
+  // console.log(forecast.properties.periods[0].name);
   // await client.getAlerts({ active: true });
   // await client.getAlerts({ active: true, area: 'NC' });
   // await client.getAlerts({ active: true, latitude: 45, longitude: -100 });
