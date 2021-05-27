@@ -3,7 +3,7 @@ import fetch from 'cross-fetch';
 import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, AlertOptions } from './types';
 
 const defaultOptions: ClientOptions = {
-  userAgent: 'weathered module version 0.0.0'
+  userAgent: 'weathered package'
 };
 
 const API_ROOT = 'https://api.weather.gov/';
@@ -43,9 +43,9 @@ class Client {
     return await resp.json();
   }
 
-  getAlerts(options: AlertOptions) : Promise<AlertsResponse> {
+  getAlerts(active: boolean, options: AlertOptions) : Promise<AlertsResponse> {
     const params = processOptions(options);
-    const path = `alerts${ options.active ? '/active' : ''}?${params}`;
+    const path = `alerts${ active ? '/active' : ''}?${params}`;
     return this.getPath(path);
   }
 

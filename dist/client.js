@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const cross_fetch_1 = __importDefault(require("cross-fetch"));
 const defaultOptions = {
-    userAgent: 'weathered module version 0.0.0'
+    userAgent: 'weathered package'
 };
 const API_ROOT = 'https://api.weather.gov/';
 const processOptions = (options) => {
@@ -34,9 +34,9 @@ class Client {
         const resp = await cross_fetch_1.default(url);
         return await resp.json();
     }
-    getAlerts(options) {
+    getAlerts(active, options) {
         const params = processOptions(options);
-        const path = `alerts${options.active ? '/active' : ''}?${params}`;
+        const path = `alerts${active ? '/active' : ''}?${params}`;
         return this.getPath(path);
     }
     getPoint(latitude, longitude) {

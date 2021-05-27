@@ -37,15 +37,12 @@ interface RegionOption {
 interface RegionTypeOption {
   regionType?: RegionType;
 }
-interface ActiveOption {
-  active: boolean;
-}
 
 interface UrgencyOption {
   urgency?: Urgency;
 }
 
-type AlertOptions = ActiveOption & UrgencyOption & XOR<AreaOption, XOR<PointOption, XOR<RegionOption, RegionTypeOption>>>;
+type AlertOptions = UrgencyOption & XOR<AreaOption, XOR<PointOption, XOR<RegionOption, RegionTypeOption>>>;
 
 interface ClientOptions {
   userAgent?: string;

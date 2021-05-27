@@ -4,7 +4,7 @@ declare class Client {
     constructor(options?: ClientOptions);
     private getPath;
     private getUrl;
-    getAlerts(options: AlertOptions): Promise<AlertsResponse>;
+    getAlerts(active: boolean, options: AlertOptions): Promise<AlertsResponse>;
     private getPoint;
     getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<ForecastResponse>;
 }
