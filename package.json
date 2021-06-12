@@ -7,7 +7,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "jest",
-    "docs": "typedoc --out docs --theme minimal src/index.ts"
+    "docs": "typedoc --out docs --theme minimal --excludePrivate src/index.ts"
   },
   "keywords": [
     "weather",
