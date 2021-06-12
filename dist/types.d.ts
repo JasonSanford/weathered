@@ -7,33 +7,33 @@ declare type Without<T, U> = {
     [P in Exclude<keyof T, keyof U>]?: never;
 };
 declare type XOR<T, U> = (T | U) extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
-interface AreaOption {
+declare type AreaOption = {
     area?: Area | Area[];
-}
-interface PointOption {
+};
+declare type PointOption = {
     latitude?: number;
     longitude?: number;
-}
-interface RegionOption {
+};
+declare type RegionOption = {
     region?: Region | Region[];
-}
-interface RegionTypeOption {
+};
+declare type RegionTypeOption = {
     regionType?: RegionType;
-}
-interface UrgencyOption {
+};
+declare type UrgencyOption = {
     urgency?: Urgency;
-}
+};
 declare type AlertOptions = UrgencyOption & XOR<AreaOption, XOR<PointOption, XOR<RegionOption, RegionTypeOption>>>;
-interface ClientOptions {
+declare type ClientOptions = {
     userAgent?: string;
-}
-interface PointResponse {
+};
+declare type PointResponse = {
     properties: {
         forecast: string;
         forecastHourly: string;
     };
-}
-interface ForecastPeriod {
+};
+declare type ForecastPeriod = {
     number: number;
     name: string;
     startTime: string;
@@ -47,8 +47,8 @@ interface ForecastPeriod {
     icon: string;
     shortForecast: string;
     detailedForecast: string;
-}
-interface ForecastProperties {
+};
+declare type ForecastProperties = {
     updated: string;
     units: string;
     forecastGenerator: string;
@@ -60,11 +60,11 @@ interface ForecastProperties {
         unitCode: string;
     };
     periods: ForecastPeriod[];
-}
-interface ForecastResponse {
+};
+declare type ForecastResponse = {
     properties: ForecastProperties;
-}
-interface AlertsFeature {
+};
+declare type AlertsFeature = {
     id: string;
     geometry: {
         type: 'Polygon';
@@ -77,8 +77,8 @@ interface AlertsFeature {
         expries: string;
         description: string;
     };
-}
-interface AlertsResponse {
+};
+declare type AlertsResponse = {
     features: AlertsFeature[];
-}
+};
 export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, AlertsResponse };

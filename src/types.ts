@@ -21,41 +21,41 @@ type XOR<T, U> = (T | U) extends object // eslint-disable-line
   ? (Without<T, U> & U) | (Without<U, T> & T)
   : T | U;
 
-interface AreaOption {
+type AreaOption = {
   area?: Area | Area[];
 }
 
-interface PointOption {
+type PointOption = {
   latitude?: number;
   longitude?: number;
 }
 
-interface RegionOption {
+type RegionOption = {
   region?: Region | Region[];
 }
 
-interface RegionTypeOption {
+type RegionTypeOption = {
   regionType?: RegionType;
 }
 
-interface UrgencyOption {
+type UrgencyOption = {
   urgency?: Urgency;
 }
 
 type AlertOptions = UrgencyOption & XOR<AreaOption, XOR<PointOption, XOR<RegionOption, RegionTypeOption>>>;
 
-interface ClientOptions {
+type ClientOptions = {
   userAgent?: string;
 }
 
-interface PointResponse {
+type PointResponse = {
   properties: {
     forecast: string;
     forecastHourly: string;
   }
 }
 
-interface ForecastPeriod {
+type ForecastPeriod = {
   number: number;
   name: string;
   startTime: string;
@@ -70,7 +70,7 @@ interface ForecastPeriod {
   shortForecast: string;
   detailedForecast: string;
 }
-interface ForecastProperties {
+type ForecastProperties = {
   updated: string;
   units: string;
   forecastGenerator: string;
@@ -81,11 +81,11 @@ interface ForecastProperties {
   periods: ForecastPeriod[];
 }
 
-interface ForecastResponse {
+type ForecastResponse = {
   properties: ForecastProperties;
 }
 
-interface AlertsFeature {
+type AlertsFeature = {
   id: string;
   geometry: {
     type: 'Polygon',
@@ -100,7 +100,7 @@ interface AlertsFeature {
   };
 }
 
-interface AlertsResponse {
+type AlertsResponse = {
   features: AlertsFeature[];
 }
 

@@ -28,10 +28,10 @@ const processOptions = (options: AlertOptions) => {
 };
 
 class Client {
-  options: ClientOptions;
+  private options: ClientOptions;
   
   constructor(options?: ClientOptions) {
-    this.options = Object.assign(defaultOptions, options);
+    this.options = {...defaultOptions, ...options};
   }
 
   private getPath(path: string) {
@@ -43,14 +43,22 @@ class Client {
     return await resp.json();
   }
 
-  getAlerts(active: boolean, options: AlertOptions) : Promise<AlertsResponse> {
-    const params = processOptions(options);
-    const path = `alerts${ active ? '/active' : ''}?${params}`;
+  private getPoint(latitude: number, longitude: number) : Promise<PointResponse> {
+    const path = `points/${latitude},${longitude}`;
     return this.getPath(path);
   }
 
-  private getPoint(latitude: number, longitude: number) : Promise<PointResponse> {
-    const path = `points/${latitude},${longitude}`;
+  getOptions() : ClientOptions {
+    return {...this.options};
+  }
+
+  setOptions(newOptions: ClientOptions) : void {
+    this.options = {...this.options, ...newOptions};
+  }
+
+  getAlerts(active: boolean, options: AlertOptions) : Promise<AlertsResponse> {
+    const params = processOptions(options);
+    const path = `alerts${ active ? '/active' : ''}?${params}`;
     return this.getPath(path);
   }
 

@@ -25,7 +25,7 @@ const processOptions = (options) => {
 };
 class Client {
     constructor(options) {
-        this.options = Object.assign(defaultOptions, options);
+        this.options = { ...defaultOptions, ...options };
     }
     getPath(path) {
         return this.getUrl(API_ROOT + path);
@@ -34,13 +34,19 @@ class Client {
         const resp = await cross_fetch_1.default(url);
         return await resp.json();
     }
+    getPoint(latitude, longitude) {
+        const path = `points/${latitude},${longitude}`;
+        return this.getPath(path);
+    }
+    getOptions() {
+        return { ...this.options };
+    }
+    setOptions(newOptions) {
+        this.options = { ...this.options, ...newOptions };
+    }
     getAlerts(active, options) {
         const params = processOptions(options);
         const path = `alerts${active ? '/active' : ''}?${params}`;
-        return this.getPath(path);
-    }
-    getPoint(latitude, longitude) {
-        const path = `points/${latitude},${longitude}`;
         return this.getPath(path);
     }
     async getForecast(latitude, longitude, forecastType) {
