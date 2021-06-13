@@ -6,6 +6,12 @@ A JavaScript wrapper for the [National Weather Service API](https://www.weather.
 
 Extensive typedoc generated documentation here - [documentation](https://jasonsanford.github.io/weathered/)
 
+## Installation
+
+```bash
+npm install weathered
+```
+
 ## Getting Started
 
 ### Import and instantiate a client
