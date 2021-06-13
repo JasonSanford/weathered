@@ -2750,14 +2750,62 @@ img {
 			<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
 				<h2>Getting Started</h2>
 			</a>
-			<a href="#get-weather-alerts-for-a-location-latitude-and-longitude" id="get-weather-alerts-for-a-location-latitude-and-longitude" style="color: inherit; text-decoration: none;">
-				<h3>Get weather alerts for a location (latitude and longitude)</h3>
+			<a href="#import-and-instantiate-a-client" id="import-and-instantiate-a-client" style="color: inherit; text-decoration: none;">
+				<h3>Import and instantiate a client</h3>
 			</a>
 			<pre><code class="language-javascript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Client</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;weathered&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">client</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Client</span><span style="color: #000000">();</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">alerts</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">getAlerts</span><span style="color: #000000">(</span><span style="color: #0000FF">false</span><span style="color: #000000">, { </span><span style="color: #001080">latitude:</span><span style="color: #000000"> </span><span style="color: #098658">35.6175667</span><span style="color: #000000">, </span><span style="color: #001080">longitude:</span><span style="color: #000000"> -</span><span style="color: #098658">80.7709911</span><span style="color: #000000"> });</span>
+</code></pre>
+			<a href="#get-active-weather-alerts-for-a-location-latitude-and-longitude" id="get-active-weather-alerts-for-a-location-latitude-and-longitude" style="color: inherit; text-decoration: none;">
+				<h3>Get active weather alerts for a location (latitude and longitude)</h3>
+			</a>
+			<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">active</span><span style="color: #000000"> = </span><span style="color: #0000FF">true</span><span style="color: #000000">;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">latitude</span><span style="color: #000000"> = </span><span style="color: #098658">35.6175667</span><span style="color: #000000">;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">longitude</span><span style="color: #000000"> = -</span><span style="color: #098658">80.7709911</span><span style="color: #000000">;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">alerts</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">getAlerts</span><span style="color: #000000">(</span><span style="color: #001080">active</span><span style="color: #000000">, { </span><span style="color: #001080">latitude</span><span style="color: #000000">, </span><span style="color: #001080">longitude</span><span style="color: #000000"> });</span>
 
+<span style="color: #001080">alerts</span><span style="color: #000000">.</span><span style="color: #001080">features</span><span style="color: #000000">.</span><span style="color: #795E26">forEach</span><span style="color: #000000">(</span><span style="color: #001080">feature</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">feature</span><span style="color: #000000">.</span><span style="color: #001080">properties</span><span style="color: #000000">.</span><span style="color: #001080">description</span><span style="color: #000000">);</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">feature</span><span style="color: #000000">.</span><span style="color: #001080">geometry</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+<span style="color: #008000">// At 744 PM EDT, Doppler radar indicated strong thunderstorms along a</span>
+<span style="color: #008000">// line extending from 11 miles southeast of Yadkinville to 6 miles</span>
+<span style="color: #008000">// south of Mocksville to 7 miles northwest of Huntersville, and moving</span>
+<span style="color: #008000">// east at 20 mph.</span>
+<span style="color: #008000">// {</span>
+<span style="color: #008000">//   type: &#039;Polygon&#039;,</span>
+<span style="color: #008000">//   coordinates: [</span>
+<span style="color: #008000">//     [ [Array], [Array] ]</span>
+<span style="color: #008000">//   ]</span>
+<span style="color: #008000">// }</span>
+</code></pre>
+			<a href="#get-all-weather-alerts-active-or-inactive-for-a-region" id="get-all-weather-alerts-active-or-inactive-for-a-region" style="color: inherit; text-decoration: none;">
+				<h3>Get all weather alerts (active or inactive) for a region</h3>
+			</a>
+			<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">alerts</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">getAlerts</span><span style="color: #000000">(</span><span style="color: #001080">active</span><span style="color: #000000">, { </span><span style="color: #001080">region:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;AL&#039;</span><span style="color: #000000"> });</span>
+<span style="color: #001080">alerts</span><span style="color: #000000">.</span><span style="color: #001080">features</span><span style="color: #000000">.</span><span style="color: #795E26">forEach</span><span style="color: #000000">(</span><span style="color: #001080">feature</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">feature</span><span style="color: #000000">.</span><span style="color: #001080">properties</span><span style="color: #000000">.</span><span style="color: #001080">description</span><span style="color: #000000">);</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">feature</span><span style="color: #000000">.</span><span style="color: #001080">geometry</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+<span style="color: #008000">// The Flood Warning continues for</span>
+<span style="color: #008000">// the Pearl River Above Philadelphia ...</span>
+<span style="color: #008000">// {</span>
+<span style="color: #008000">//   type: &#039;Polygon&#039;,</span>
+<span style="color: #008000">//   coordinates: [</span>
+<span style="color: #008000">//     [ [Array], [Array] ]</span>
+<span style="color: #008000">//   ]</span>
+<span style="color: #008000">// }</span>
+</code></pre>
+			<a href="#get-weather-forecast-for-a-location-latitude-and-longitude" id="get-weather-forecast-for-a-location-latitude-and-longitude" style="color: inherit; text-decoration: none;">
+				<h3>Get weather forecast for a location (latitude and longitude)</h3>
+			</a>
+			<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">forecast</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">getForecast</span><span style="color: #000000">(</span><span style="color: #001080">latitude</span><span style="color: #000000">, </span><span style="color: #001080">longitude</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;baseline&#039;</span><span style="color: #000000">);</span>
+<span style="color: #001080">forecast</span><span style="color: #000000">.</span><span style="color: #001080">properties</span><span style="color: #000000">.</span><span style="color: #001080">periods</span><span style="color: #000000">.</span><span style="color: #795E26">forEach</span><span style="color: #000000">(</span><span style="color: #001080">period</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">`</span><span style="color: #0000FF">${</span><span style="color: #001080">period</span><span style="color: #000000FF">.</span><span style="color: #001080">name</span><span style="color: #0000FF">}</span><span style="color: #A31515">: </span><span style="color: #0000FF">${</span><span style="color: #001080">period</span><span style="color: #000000FF">.</span><span style="color: #001080">detailedForecast</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+<span style="color: #008000">// Today Partly sunny, with a high near 86. Northeast wind 2 to 6 mph.</span>
+<span style="color: #008000">// Tonight Partly cloudy, with a low around 68. South southeast wind around 3 mph.</span>
 </code></pre>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
@@ -2796,7 +2844,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Alert<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">UrgencyOption</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">XOR</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AreaOption</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">XOR</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PointOption</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">XOR</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegionOption</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RegionTypeOption</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L45">types.ts:45</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L45">types.ts:45</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2806,7 +2854,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Area<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;AL&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AK&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AR&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AZ&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;CA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;CO&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;CT&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DE&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DC&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;FL&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;GA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;GU&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;HI&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;ID&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;IL&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;IN&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;IA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;KS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;KY&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;ME&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MD&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MI&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MN&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MO&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MT&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;NE&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;NV&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;NH&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;NJ&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;NM&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;NY&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;NC&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;ND&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;OH&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;OK&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;OR&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PR&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;RI&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SC&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SD&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TN&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TX&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;UT&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;VT&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;VI&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;VA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;WA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;WV&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;WI&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;WY&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PZ&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PK&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PH&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PM&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AN&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AM&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;GM&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LM&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LH&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LC&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LE&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LO&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L3">types.ts:3</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L3">types.ts:3</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2816,7 +2864,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Client<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>userAgent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L47">types.ts:47</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L47">types.ts:47</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -2834,7 +2882,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Forecast<wbr>Response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>properties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ForecastProperties</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L84">types.ts:84</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L84">types.ts:84</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -2852,7 +2900,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Forecast<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;hourly&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;baseline&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L1">types.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L1">types.ts:1</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2862,7 +2910,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Point<wbr>Response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>properties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>forecast<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>forecastHourly<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L51">types.ts:51</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L51">types.ts:51</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -2888,7 +2936,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Region<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;AL&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AT&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;GL&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;GM&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PA&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PI&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L12">types.ts:12</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L12">types.ts:12</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2898,7 +2946,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Region<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;land&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;marine&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L14">types.ts:14</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L14">types.ts:14</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2908,7 +2956,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Urgency<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;immediate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;expected&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;future&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;past&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;unknown&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/20284b6/src/types.ts#L16">types.ts:16</a></li>
+						<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/6d3ef7a/src/types.ts#L16">types.ts:16</a></li>
 					</ul>
 				</aside>
 			</section>
