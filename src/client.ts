@@ -27,6 +27,13 @@ const processOptions = (options: AlertOptions) => {
   return params;
 };
 
+/**
+ * The main client
+ *
+ * ```typescript
+ * const client = new Client();
+ * ```
+ */
 class Client {
   private options: ClientOptions;
   
@@ -56,12 +63,32 @@ class Client {
     this.options = {...this.options, ...newOptions};
   }
 
+  /**
+   * Get weather alerts for a given area
+   *
+   * ```typescript
+   * const active = true;
+   * const latitude = 35.6175667;
+   * const longitude = -80.7709911;
+   * const alerts = await client.getAlerts(active, { latitude, longitude });
+   * ```
+   */
   getAlerts(active: boolean, options: AlertOptions) : Promise<AlertsResponse> {
     const params = processOptions(options);
     const path = `alerts${ active ? '/active' : ''}?${params}`;
     return this.getPath(path);
   }
 
+  /**
+   * Get a weather forecast for a given latitude and longitude
+   *
+   * ```typescript
+   * const latitude = 35.6175667;
+   * const longitude = -80.7709911;
+   * const forecast = await client.getForecast(latitude, longitude, 'baseline');
+   * ```
+   * 
+   */
   async getForecast(latitude: number, longitude: number, forecastType: ForecastType) : Promise<ForecastResponse> {
     const pointResp = await this.getPoint(latitude, longitude);
     const forecastKey = forecastType === 'hourly' ? 'forecastHourly' : 'forecast';
