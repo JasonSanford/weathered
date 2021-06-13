@@ -81,4 +81,4 @@ declare type AlertsFeature = {
 declare type AlertsResponse = {
     features: AlertsFeature[];
 };
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, AlertsResponse };
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, AlertsResponse, AlertsFeature };
