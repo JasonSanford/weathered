@@ -2717,6 +2717,9 @@ img {
 					<a href="client.html#getforecast" class="tsd-kind-icon">get<wbr>Forecast</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="client.html#getlatestobservations" class="tsd-kind-icon">get<wbr>Latest<wbr>Observations</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="client.html#getoptions" class="tsd-kind-icon">get<wbr>Options</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -2740,10 +2743,16 @@ img {
 			<a href="../modules.html#clientoptions" class="tsd-kind-icon">Client<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
+			<a href="../modules.html#forecastproperties" class="tsd-kind-icon">Forecast<wbr>Properties</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
 			<a href="../modules.html#forecastresponse" class="tsd-kind-icon">Forecast<wbr>Response</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../modules.html#forecasttype" class="tsd-kind-icon">Forecast<wbr>Type</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
+			<a href="../modules.html#observationresponse" class="tsd-kind-icon">Observation<wbr>Response</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../modules.html#pointresponse" class="tsd-kind-icon">Point<wbr>Response</a>
@@ -2793,6 +2802,7 @@ img {
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#getalerts" class="tsd-kind-icon">get<wbr>Alerts</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#getforecast" class="tsd-kind-icon">get<wbr>Forecast</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#getlatestobservations" class="tsd-kind-icon">get<wbr>Latest<wbr>Observations</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#getoptions" class="tsd-kind-icon">get<wbr>Options</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="client.html#setoptions" class="tsd-kind-icon">set<wbr>Options</a></li>
 						</ul>
@@ -2812,7 +2822,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/18db422/src/client.ts#L38">client.ts:38</a></li>
+								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/f946b53/src/client.ts#L41">client.ts:41</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2838,7 +2848,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/18db422/src/client.ts#L76">client.ts:76</a></li>
+								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/f946b53/src/client.ts#L107">client.ts:107</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2874,7 +2884,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/18db422/src/client.ts#L92">client.ts:92</a></li>
+								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/f946b53/src/client.ts#L123">client.ts:123</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2903,6 +2913,43 @@ img {
 				</ul>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="getlatestobservations" class="tsd-anchor"></a>
+				<h3>get<wbr>Latest<wbr>Observations</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">get<wbr>Latest<wbr>Observations<span class="tsd-signature-symbol">(</span>latitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, longitude<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules.html#observationresponse" class="tsd-signature-type" data-tsd-kind="Type alias">ObservationResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/f946b53/src/client.ts#L142">client.ts:142</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Get the latest weather observations for a given latitude and longitude.
+									This method finds the nearest observation station, which could be near
+								or far, and returns its latest observation.</p>
+							</div>
+							<pre><code class="language-typescript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">latitude</span><span style="color: #000000"> = </span><span style="color: #098658">35.6175667</span><span style="color: #000000">;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">longitude</span><span style="color: #000000"> = -</span><span style="color: #098658">80.7709911</span><span style="color: #000000">;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">observations</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">getLatestObservations</span><span style="color: #000000">(</span><span style="color: #001080">latitude</span><span style="color: #000000">, </span><span style="color: #001080">longitude</span><span style="color: #000000">);</span>
+</code></pre>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>latitude: <span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li>
+								<h5>longitude: <span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules.html#observationresponse" class="tsd-signature-type" data-tsd-kind="Type alias">ObservationResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 				<a name="getoptions" class="tsd-anchor"></a>
 				<h3>get<wbr>Options</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -2912,7 +2959,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/18db422/src/client.ts#L58">client.ts:58</a></li>
+								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/f946b53/src/client.ts#L89">client.ts:89</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <a href="../modules.html#clientoptions" class="tsd-signature-type" data-tsd-kind="Type alias">ClientOptions</a></h4>
@@ -2929,7 +2976,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/18db422/src/client.ts#L62">client.ts:62</a></li>
+								<li>Defined in <a href="https://github.com/JasonSanford/weathered/blob/f946b53/src/client.ts#L93">client.ts:93</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>

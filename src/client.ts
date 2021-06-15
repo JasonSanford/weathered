@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-import PointCache from './point_cache';
+import { PointCache, StationsCache } from './cache';
 import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, ObservationResponse, AlertOptions } from './types';
 
 const defaultOptions: ClientOptions = {
@@ -38,10 +38,12 @@ const processOptions = (options: AlertOptions) => {
 class Client {
   private options: ClientOptions;
   private pointCache: PointCache;
+  private stationsCache: StationsCache;
   
   constructor(options?: ClientOptions) {
     this.options = {...defaultOptions, ...options};
     this.pointCache = new PointCache();
+    this.stationsCache = new StationsCache();
   }
 
   private getPath(path: string) {
@@ -53,26 +55,42 @@ class Client {
     return await resp.json();
   }
 
-  private async getPoint(latitude: number, longitude: number) : Promise<PointResponse> {
-    const potentialPointResponse = this.pointCache.get(latitude, longitude);
+  private async getPoint(latitude: number, longitude: number): Promise<PointResponse> {
+    const cacheKey = `${latitude},${longitude}`;
+    const potentialPointResponse = this.pointCache.get(cacheKey);
 
     if (potentialPointResponse) {
+      console.log('point hit');
       return potentialPointResponse;
     }
-
+    console.log('point miss');
     const path = `points/${latitude},${longitude}`;
 
     const pointResponse = await this.getPath(path);
-    this.pointCache.set(latitude, longitude, pointResponse);
+    this.pointCache.set(cacheKey, pointResponse);
 
     return pointResponse;
   }
 
-  getOptions() : ClientOptions {
+  private async getStations(url: string): Promise<StationsResponse> {
+    const potentionalStationsResponse = this.stationsCache.get(url);
+
+    if (potentionalStationsResponse) {
+      console.log('stations hit');
+      return potentionalStationsResponse;
+    }
+    console.log('stations miss');
+    const stationsResponse = await this.getUrl(url);
+    this.stationsCache.set(url, stationsResponse);
+
+    return stationsResponse;
+  }
+
+  getOptions(): ClientOptions {
     return {...this.options};
   }
 
-  setOptions(newOptions: ClientOptions) : void {
+  setOptions(newOptions: ClientOptions): void {
     this.options = {...this.options, ...newOptions};
   }
 
@@ -86,7 +104,7 @@ class Client {
    * const alerts = await client.getAlerts(active, { latitude, longitude });
    * ```
    */
-  getAlerts(active: boolean, options: AlertOptions) : Promise<AlertsResponse> {
+  getAlerts(active: boolean, options: AlertOptions): Promise<AlertsResponse> {
     const params = processOptions(options);
     const path = `alerts${ active ? '/active' : ''}?${params}`;
     return this.getPath(path);
@@ -102,17 +120,29 @@ class Client {
    * ```
    * 
    */
-  async getForecast(latitude: number, longitude: number, forecastType: ForecastType) : Promise<ForecastResponse> {
+  async getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<ForecastResponse> {
     const pointResponse = await this.getPoint(latitude, longitude);
     const forecastKey = forecastType === 'hourly' ? 'forecastHourly' : 'forecast';
     const url = pointResponse.properties[forecastKey];
     return this.getUrl(url);
   }
 
-  async getObservation(latitude: number, longitude: number): Promise<ObservationResponse> {
+  /**
+   * Get the latest weather observations for a given latitude and longitude.
+   * This method finds the nearest observation station, which could be near
+   * or far, and returns its latest observation.
+   *
+   * ```typescript
+   * const latitude = 35.6175667;
+   * const longitude = -80.7709911;
+   * const observations = await client.getLatestObservations(latitude, longitude);
+   * ```
+   * 
+   */
+  async getLatestObservations(latitude: number, longitude: number): Promise<ObservationResponse> {
     const pointResponse = await this.getPoint(latitude, longitude);
     const stationsUrl = pointResponse.properties.observationStations;
-    const stationsResponse: StationsResponse = await this.getUrl(stationsUrl);
+    const stationsResponse = await this.getStations(stationsUrl);
     const observationsUrl = `${stationsResponse.features[0].id}/observations/latest`;
     const observationResponse: ObservationResponse = await this.getUrl(observationsUrl);
     return observationResponse;
