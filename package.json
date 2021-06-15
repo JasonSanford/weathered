@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A JavaScript wrapper for the National Weather Service API",
   "main": "dist/index.js",
+  "files": ["dist"],
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
