@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 
-import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, AlertOptions } from './types';
+import PointCache from './point_cache';
+import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, ObservationResponse, AlertOptions } from './types';
 
 const defaultOptions: ClientOptions = {
   userAgent: 'weathered package'
@@ -36,9 +37,11 @@ const processOptions = (options: AlertOptions) => {
  */
 class Client {
   private options: ClientOptions;
+  private pointCache: PointCache;
   
   constructor(options?: ClientOptions) {
     this.options = {...defaultOptions, ...options};
+    this.pointCache = new PointCache();
   }
 
   private getPath(path: string) {
@@ -50,9 +53,19 @@ class Client {
     return await resp.json();
   }
 
-  private getPoint(latitude: number, longitude: number) : Promise<PointResponse> {
+  private async getPoint(latitude: number, longitude: number) : Promise<PointResponse> {
+    const potentialPointResponse = this.pointCache.get(latitude, longitude);
+
+    if (potentialPointResponse) {
+      return potentialPointResponse;
+    }
+
     const path = `points/${latitude},${longitude}`;
-    return this.getPath(path);
+
+    const pointResponse = await this.getPath(path);
+    this.pointCache.set(latitude, longitude, pointResponse);
+
+    return pointResponse;
   }
 
   getOptions() : ClientOptions {
@@ -90,10 +103,19 @@ class Client {
    * 
    */
   async getForecast(latitude: number, longitude: number, forecastType: ForecastType) : Promise<ForecastResponse> {
-    const pointResp = await this.getPoint(latitude, longitude);
+    const pointResponse = await this.getPoint(latitude, longitude);
     const forecastKey = forecastType === 'hourly' ? 'forecastHourly' : 'forecast';
-    const url = pointResp.properties[forecastKey];
+    const url = pointResponse.properties[forecastKey];
     return this.getUrl(url);
+  }
+
+  async getObservation(latitude: number, longitude: number): Promise<ObservationResponse> {
+    const pointResponse = await this.getPoint(latitude, longitude);
+    const stationsUrl = pointResponse.properties.observationStations;
+    const stationsResponse: StationsResponse = await this.getUrl(stationsUrl);
+    const observationsUrl = `${stationsResponse.features[0].id}/observations/latest`;
+    const observationResponse: ObservationResponse = await this.getUrl(observationsUrl);
+    return observationResponse;
   }
 }
 

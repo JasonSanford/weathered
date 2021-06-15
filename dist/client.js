@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const cross_fetch_1 = __importDefault(require("cross-fetch"));
+const point_cache_1 = __importDefault(require("./point_cache"));
 const defaultOptions = {
     userAgent: 'weathered package'
 };
@@ -33,6 +34,7 @@ const processOptions = (options) => {
 class Client {
     constructor(options) {
         this.options = { ...defaultOptions, ...options };
+        this.pointCache = new point_cache_1.default();
     }
     getPath(path) {
         return this.getUrl(API_ROOT + path);
@@ -41,9 +43,15 @@ class Client {
         const resp = await cross_fetch_1.default(url);
         return await resp.json();
     }
-    getPoint(latitude, longitude) {
+    async getPoint(latitude, longitude) {
+        const potentialPointResponse = this.pointCache.get(latitude, longitude);
+        if (potentialPointResponse) {
+            return potentialPointResponse;
+        }
         const path = `points/${latitude},${longitude}`;
-        return this.getPath(path);
+        const pointResponse = await this.getPath(path);
+        this.pointCache.set(latitude, longitude, pointResponse);
+        return pointResponse;
     }
     getOptions() {
         return { ...this.options };
@@ -77,10 +85,18 @@ class Client {
      *
      */
     async getForecast(latitude, longitude, forecastType) {
-        const pointResp = await this.getPoint(latitude, longitude);
+        const pointResponse = await this.getPoint(latitude, longitude);
         const forecastKey = forecastType === 'hourly' ? 'forecastHourly' : 'forecast';
-        const url = pointResp.properties[forecastKey];
+        const url = pointResponse.properties[forecastKey];
         return this.getUrl(url);
+    }
+    async getObservation(latitude, longitude) {
+        const pointResponse = await this.getPoint(latitude, longitude);
+        const stationsUrl = pointResponse.properties.observationStations;
+        const stationsResponse = await this.getUrl(stationsUrl);
+        const observationsUrl = `${stationsResponse.features[0].id}/observations/latest`;
+        const observationResponse = await this.getUrl(observationsUrl);
+        return observationResponse;
     }
 }
 exports.Client = Client;

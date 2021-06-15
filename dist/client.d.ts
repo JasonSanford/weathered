@@ -1,4 +1,4 @@
-import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, AlertOptions } from './types';
+import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, ObservationResponse, AlertOptions } from './types';
 /**
  * The main client
  *
@@ -8,6 +8,7 @@ import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, AlertOpt
  */
 declare class Client {
     private options;
+    private pointCache;
     constructor(options?: ClientOptions);
     private getPath;
     private getUrl;
@@ -36,5 +37,6 @@ declare class Client {
      *
      */
     getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<ForecastResponse>;
+    getObservation(latitude: number, longitude: number): Promise<ObservationResponse>;
 }
 export { Client };
