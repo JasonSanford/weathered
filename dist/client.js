@@ -107,7 +107,8 @@ class Client {
     }
     /**
      * Get the latest weather observations for a given latitude and longitude.
-     * This
+     * This method finds the nearest observation station, which could be near
+     * or far, and returns its latest observation.
      *
      * ```typescript
      * const latitude = 35.6175667;
