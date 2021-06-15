@@ -9,10 +9,12 @@ import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, Observat
 declare class Client {
     private options;
     private pointCache;
+    private stationsCache;
     constructor(options?: ClientOptions);
     private getPath;
     private getUrl;
     private getPoint;
+    private getStations;
     getOptions(): ClientOptions;
     setOptions(newOptions: ClientOptions): void;
     /**
@@ -37,6 +39,17 @@ declare class Client {
      *
      */
     getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<ForecastResponse>;
-    getObservation(latitude: number, longitude: number): Promise<ObservationResponse>;
+    /**
+     * Get the latest weather observations for a given latitude and longitude.
+     * This
+     *
+     * ```typescript
+     * const latitude = 35.6175667;
+     * const longitude = -80.7709911;
+     * const observations = await client.getLatestObservations(latitude, longitude);
+     * ```
+     *
+     */
+    getLatestObservations(latitude: number, longitude: number): Promise<ObservationResponse>;
 }
 export { Client };
