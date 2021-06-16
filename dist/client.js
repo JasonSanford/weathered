@@ -57,17 +57,6 @@ class Client {
         this.pointCache.set(cacheKey, pointResponse);
         return pointResponse;
     }
-    async getStations(url) {
-        const potentionalStationsResponse = this.stationsCache.get(url);
-        if (potentionalStationsResponse) {
-            console.log('stations hit');
-            return potentionalStationsResponse;
-        }
-        console.log('stations miss');
-        const stationsResponse = await this.getUrl(url);
-        this.stationsCache.set(url, stationsResponse);
-        return stationsResponse;
-    }
     getOptions() {
         return { ...this.options };
     }
@@ -75,7 +64,7 @@ class Client {
         this.options = { ...this.options, ...newOptions };
     }
     /**
-     * Get weather alerts for a given area
+     * Get weather alerts for a given area.
      *
      * ```typescript
      * const active = true;
@@ -90,7 +79,7 @@ class Client {
         return this.getPath(path);
     }
     /**
-     * Get a weather forecast for a given latitude and longitude
+     * Get a weather forecast for a given latitude and longitude.
      *
      * ```typescript
      * const latitude = 35.6175667;
@@ -106,24 +95,42 @@ class Client {
         return this.getUrl(url);
     }
     /**
-     * Get the latest weather observations for a given latitude and longitude.
-     * This method finds the nearest observation station, which could be near
-     * or far, and returns its latest observation.
+     * Get the closest weather stations for a given latitude and longitude.
      *
      * ```typescript
      * const latitude = 35.6175667;
      * const longitude = -80.7709911;
-     * const observations = await client.getLatestObservations(latitude, longitude);
+     * const stations = await client.getStations(latitude, longitude);
      * ```
      *
      */
-    async getLatestObservations(latitude, longitude) {
+    async getStations(latitude, longitude) {
         const pointResponse = await this.getPoint(latitude, longitude);
         const stationsUrl = pointResponse.properties.observationStations;
-        const stationsResponse = await this.getStations(stationsUrl);
-        const observationsUrl = `${stationsResponse.features[0].id}/observations/latest`;
-        const observationResponse = await this.getUrl(observationsUrl);
-        return observationResponse;
+        const potentionalStationsResponse = this.stationsCache.get(stationsUrl);
+        if (potentionalStationsResponse) {
+            return potentionalStationsResponse;
+        }
+        const stationsResponse = await this.getUrl(stationsUrl);
+        this.stationsCache.set(stationsUrl, stationsResponse);
+        return stationsResponse;
+    }
+    /**
+     * Get the closest weather station for a given latitude and longitude.
+     *
+     * ```typescript
+     * const latitude = 35.6175667;
+     * const longitude = -80.7709911;
+     * const stationOrNull = await client.getNearestStation(latitude, longitude);
+     * ```
+     *
+     */
+    async getNearestStation(latitude, longitude) {
+        const stationsResponse = await this.getStations(latitude, longitude);
+        if (stationsResponse.features.length > 0) {
+            return stationsResponse.features[0];
+        }
+        return null;
     }
 }
 exports.Client = Client;

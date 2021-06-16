@@ -128,4 +128,4 @@ type AlertsResponse = {
   features: AlertsFeature[];
 }
 
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, StationsResponse, ObservationResponse, AlertsResponse, AlertsFeature };
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, Station, StationsResponse, AlertsResponse, AlertsFeature };

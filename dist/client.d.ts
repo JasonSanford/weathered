@@ -1,4 +1,4 @@
-import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, ObservationResponse, AlertOptions } from './types';
+import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, AlertOptions } from './types';
 /**
  * The main client
  *
@@ -14,11 +14,10 @@ declare class Client {
     private getPath;
     private getUrl;
     private getPoint;
-    private getStations;
     getOptions(): ClientOptions;
     setOptions(newOptions: ClientOptions): void;
     /**
-     * Get weather alerts for a given area
+     * Get weather alerts for a given area.
      *
      * ```typescript
      * const active = true;
@@ -29,7 +28,7 @@ declare class Client {
      */
     getAlerts(active: boolean, options: AlertOptions): Promise<AlertsResponse>;
     /**
-     * Get a weather forecast for a given latitude and longitude
+     * Get a weather forecast for a given latitude and longitude.
      *
      * ```typescript
      * const latitude = 35.6175667;
@@ -40,17 +39,26 @@ declare class Client {
      */
     getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<ForecastResponse>;
     /**
-     * Get the latest weather observations for a given latitude and longitude.
-     * This method finds the nearest observation station, which could be near
-     * or far, and returns its latest observation.
+     * Get the closest weather stations for a given latitude and longitude.
      *
      * ```typescript
      * const latitude = 35.6175667;
      * const longitude = -80.7709911;
-     * const observations = await client.getLatestObservations(latitude, longitude);
+     * const stations = await client.getStations(latitude, longitude);
      * ```
      *
      */
-    getLatestObservations(latitude: number, longitude: number): Promise<ObservationResponse>;
+    getStations(latitude: number, longitude: number): Promise<StationsResponse>;
+    /**
+     * Get the closest weather station for a given latitude and longitude.
+     *
+     * ```typescript
+     * const latitude = 35.6175667;
+     * const longitude = -80.7709911;
+     * const stationOrNull = await client.getNearestStation(latitude, longitude);
+     * ```
+     *
+     */
+    getNearestStation(latitude: number, longitude: number): Promise<Station | null>;
 }
 export { Client };

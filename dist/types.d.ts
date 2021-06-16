@@ -40,18 +40,6 @@ declare type Station = {
 declare type StationsResponse = {
     features: Station[];
 };
-declare type PresentWeather = {
-    [key: string]: string | null;
-};
-declare type ObservationResponse = {
-    properties: {
-        presentWeather: PresentWeather[];
-        temperature: {
-            value: number;
-            unitCode: string;
-        };
-    };
-};
 declare type ForecastPeriod = {
     number: number;
     name: string;
@@ -100,4 +88,4 @@ declare type AlertsFeature = {
 declare type AlertsResponse = {
     features: AlertsFeature[];
 };
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, StationsResponse, ObservationResponse, AlertsResponse, AlertsFeature };
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, Station, StationsResponse, AlertsResponse, AlertsFeature };
