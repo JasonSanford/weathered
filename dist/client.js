@@ -48,10 +48,8 @@ class Client {
         const cacheKey = `${latitude},${longitude}`;
         const potentialPointResponse = this.pointCache.get(cacheKey);
         if (potentialPointResponse) {
-            console.log('point hit');
             return potentialPointResponse;
         }
-        console.log('point miss');
         const path = `points/${latitude},${longitude}`;
         const pointResponse = await this.getPath(path);
         this.pointCache.set(cacheKey, pointResponse);
