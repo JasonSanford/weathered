@@ -1,14 +1,7 @@
-import { PointResponse, StationsResponse } from './types';
-declare class PointCache {
-    private points;
-    constructor();
-    get(key: string): PointResponse | undefined;
-    set(key: string, pointResponse: PointResponse): void;
-}
-declare class StationsCache {
+declare abstract class Cache<T> {
     private items;
     constructor();
-    get(key: string): StationsResponse | undefined;
-    set(key: string, stationsResponse: StationsResponse): void;
+    get(key: string): T | undefined;
+    set(key: string, value: T): void;
 }
-export { PointCache, StationsCache };
+export default Cache;

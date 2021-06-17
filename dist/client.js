@@ -5,7 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const cross_fetch_1 = __importDefault(require("cross-fetch"));
-const cache_1 = require("./cache");
+const cache_1 = __importDefault(require("./cache"));
+class PointCache extends cache_1.default {
+}
+class StationsCache extends cache_1.default {
+}
 const defaultOptions = {
     userAgent: 'weathered package'
 };
@@ -34,8 +38,8 @@ const processOptions = (options) => {
 class Client {
     constructor(options) {
         this.options = { ...defaultOptions, ...options };
-        this.pointCache = new cache_1.PointCache();
-        this.stationsCache = new cache_1.StationsCache();
+        this.pointCache = new PointCache();
+        this.stationsCache = new StationsCache();
     }
     getPath(path) {
         return this.getUrl(API_ROOT + path);

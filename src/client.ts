@@ -1,7 +1,10 @@
 import fetch from 'cross-fetch';
 
-import { PointCache, StationsCache } from './cache';
+import Cache from './cache';
 import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, AlertOptions } from './types';
+
+class PointCache extends Cache<PointResponse>{}
+class StationsCache extends Cache<StationsResponse>{}
 
 const defaultOptions: ClientOptions = {
   userAgent: 'weathered package'
