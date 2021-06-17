@@ -31,7 +31,14 @@ declare type PointResponse = {
     properties: {
         forecast: string;
         forecastHourly: string;
+        observationStations: string;
     };
+};
+declare type Station = {
+    id: string;
+};
+declare type StationsResponse = {
+    features: Station[];
 };
 declare type ForecastPeriod = {
     number: number;
@@ -81,4 +88,4 @@ declare type AlertsFeature = {
 declare type AlertsResponse = {
     features: AlertsFeature[];
 };
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, AlertsResponse, AlertsFeature };
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, Station, StationsResponse, AlertsResponse, AlertsFeature };

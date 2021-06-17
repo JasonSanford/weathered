@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const cross_fetch_1 = __importDefault(require("cross-fetch"));
+const cache_1 = __importDefault(require("./cache"));
 const defaultOptions = {
     userAgent: 'weathered package'
 };
@@ -33,6 +34,8 @@ const processOptions = (options) => {
 class Client {
     constructor(options) {
         this.options = { ...defaultOptions, ...options };
+        this.pointCache = new cache_1.default();
+        this.stationsCache = new cache_1.default();
     }
     getPath(path) {
         return this.getUrl(API_ROOT + path);
@@ -41,9 +44,16 @@ class Client {
         const resp = await cross_fetch_1.default(url);
         return await resp.json();
     }
-    getPoint(latitude, longitude) {
+    async getPoint(latitude, longitude) {
+        const cacheKey = `${latitude},${longitude}`;
+        const potentialPointResponse = this.pointCache.get(cacheKey);
+        if (potentialPointResponse) {
+            return potentialPointResponse;
+        }
         const path = `points/${latitude},${longitude}`;
-        return this.getPath(path);
+        const pointResponse = await this.getPath(path);
+        this.pointCache.set(cacheKey, pointResponse);
+        return pointResponse;
     }
     getOptions() {
         return { ...this.options };
@@ -52,7 +62,7 @@ class Client {
         this.options = { ...this.options, ...newOptions };
     }
     /**
-     * Get weather alerts for a given area
+     * Get weather alerts for a given area.
      *
      * ```typescript
      * const active = true;
@@ -67,7 +77,7 @@ class Client {
         return this.getPath(path);
     }
     /**
-     * Get a weather forecast for a given latitude and longitude
+     * Get a weather forecast for a given latitude and longitude.
      *
      * ```typescript
      * const latitude = 35.6175667;
@@ -77,10 +87,48 @@ class Client {
      *
      */
     async getForecast(latitude, longitude, forecastType) {
-        const pointResp = await this.getPoint(latitude, longitude);
+        const pointResponse = await this.getPoint(latitude, longitude);
         const forecastKey = forecastType === 'hourly' ? 'forecastHourly' : 'forecast';
-        const url = pointResp.properties[forecastKey];
+        const url = pointResponse.properties[forecastKey];
         return this.getUrl(url);
+    }
+    /**
+     * Get the closest weather stations for a given latitude and longitude.
+     *
+     * ```typescript
+     * const latitude = 35.6175667;
+     * const longitude = -80.7709911;
+     * const stations = await client.getStations(latitude, longitude);
+     * ```
+     *
+     */
+    async getStations(latitude, longitude) {
+        const pointResponse = await this.getPoint(latitude, longitude);
+        const stationsUrl = pointResponse.properties.observationStations;
+        const potentionalStationsResponse = this.stationsCache.get(stationsUrl);
+        if (potentionalStationsResponse) {
+            return potentionalStationsResponse;
+        }
+        const stationsResponse = await this.getUrl(stationsUrl);
+        this.stationsCache.set(stationsUrl, stationsResponse);
+        return stationsResponse;
+    }
+    /**
+     * Get the closest weather station for a given latitude and longitude.
+     *
+     * ```typescript
+     * const latitude = 35.6175667;
+     * const longitude = -80.7709911;
+     * const stationOrNull = await client.getNearestStation(latitude, longitude);
+     * ```
+     *
+     */
+    async getNearestStation(latitude, longitude) {
+        const stationsResponse = await this.getStations(latitude, longitude);
+        if (stationsResponse.features.length > 0) {
+            return stationsResponse.features[0];
+        }
+        return null;
     }
 }
 exports.Client = Client;

@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 
-import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, AlertOptions } from './types';
+import Cache from './cache';
+import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, AlertOptions } from './types';
 
 const defaultOptions: ClientOptions = {
   userAgent: 'weathered package'
@@ -36,9 +37,13 @@ const processOptions = (options: AlertOptions) => {
  */
 class Client {
   private options: ClientOptions;
+  private pointCache: Cache<PointResponse>;
+  private stationsCache: Cache<StationsResponse>;
   
   constructor(options?: ClientOptions) {
     this.options = {...defaultOptions, ...options};
+    this.pointCache = new Cache<PointResponse>();
+    this.stationsCache = new Cache<StationsResponse>();
   }
 
   private getPath(path: string) {
@@ -50,21 +55,31 @@ class Client {
     return await resp.json();
   }
 
-  private getPoint(latitude: number, longitude: number) : Promise<PointResponse> {
+  private async getPoint(latitude: number, longitude: number): Promise<PointResponse> {
+    const cacheKey = `${latitude},${longitude}`;
+    const potentialPointResponse = this.pointCache.get(cacheKey);
+
+    if (potentialPointResponse) {
+      return potentialPointResponse;
+    }
+
     const path = `points/${latitude},${longitude}`;
-    return this.getPath(path);
+    const pointResponse = await this.getPath(path);
+    this.pointCache.set(cacheKey, pointResponse);
+
+    return pointResponse;
   }
 
-  getOptions() : ClientOptions {
+  getOptions(): ClientOptions {
     return {...this.options};
   }
 
-  setOptions(newOptions: ClientOptions) : void {
+  setOptions(newOptions: ClientOptions): void {
     this.options = {...this.options, ...newOptions};
   }
 
   /**
-   * Get weather alerts for a given area
+   * Get weather alerts for a given area.
    *
    * ```typescript
    * const active = true;
@@ -73,14 +88,14 @@ class Client {
    * const alerts = await client.getAlerts(active, { latitude, longitude });
    * ```
    */
-  getAlerts(active: boolean, options: AlertOptions) : Promise<AlertsResponse> {
+  getAlerts(active: boolean, options: AlertOptions): Promise<AlertsResponse> {
     const params = processOptions(options);
     const path = `alerts${ active ? '/active' : ''}?${params}`;
     return this.getPath(path);
   }
 
   /**
-   * Get a weather forecast for a given latitude and longitude
+   * Get a weather forecast for a given latitude and longitude.
    *
    * ```typescript
    * const latitude = 35.6175667;
@@ -89,11 +104,56 @@ class Client {
    * ```
    * 
    */
-  async getForecast(latitude: number, longitude: number, forecastType: ForecastType) : Promise<ForecastResponse> {
-    const pointResp = await this.getPoint(latitude, longitude);
+  async getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<ForecastResponse> {
+    const pointResponse = await this.getPoint(latitude, longitude);
     const forecastKey = forecastType === 'hourly' ? 'forecastHourly' : 'forecast';
-    const url = pointResp.properties[forecastKey];
+    const url = pointResponse.properties[forecastKey];
     return this.getUrl(url);
+  }
+
+  /**
+   * Get the closest weather stations for a given latitude and longitude.
+   *
+   * ```typescript
+   * const latitude = 35.6175667;
+   * const longitude = -80.7709911;
+   * const stations = await client.getStations(latitude, longitude);
+   * ```
+   * 
+   */
+  async getStations(latitude: number, longitude: number): Promise<StationsResponse> {
+    const pointResponse = await this.getPoint(latitude, longitude);
+    const stationsUrl = pointResponse.properties.observationStations;
+
+    const potentionalStationsResponse = this.stationsCache.get(stationsUrl);
+
+    if (potentionalStationsResponse) {
+      return potentionalStationsResponse;
+    }
+
+    const stationsResponse = await this.getUrl(stationsUrl);
+    this.stationsCache.set(stationsUrl, stationsResponse);
+
+    return stationsResponse;
+  }
+
+  /**
+   * Get the closest weather station for a given latitude and longitude.
+   *
+   * ```typescript
+   * const latitude = 35.6175667;
+   * const longitude = -80.7709911;
+   * const stationOrNull = await client.getNearestStation(latitude, longitude);
+   * ```
+   * 
+   */
+  async getNearestStation(latitude: number, longitude: number): Promise<Station | null> {
+    const stationsResponse = await this.getStations(latitude, longitude);
+    if (stationsResponse.features.length > 0) {
+      return stationsResponse.features[0];
+    }
+
+    return null;
   }
 }
 

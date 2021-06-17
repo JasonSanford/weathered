@@ -1,4 +1,4 @@
-import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, AlertOptions } from './types';
+import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, AlertOptions } from './types';
 /**
  * The main client
  *
@@ -8,6 +8,8 @@ import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, AlertOpt
  */
 declare class Client {
     private options;
+    private pointCache;
+    private stationsCache;
     constructor(options?: ClientOptions);
     private getPath;
     private getUrl;
@@ -15,7 +17,7 @@ declare class Client {
     getOptions(): ClientOptions;
     setOptions(newOptions: ClientOptions): void;
     /**
-     * Get weather alerts for a given area
+     * Get weather alerts for a given area.
      *
      * ```typescript
      * const active = true;
@@ -26,7 +28,7 @@ declare class Client {
      */
     getAlerts(active: boolean, options: AlertOptions): Promise<AlertsResponse>;
     /**
-     * Get a weather forecast for a given latitude and longitude
+     * Get a weather forecast for a given latitude and longitude.
      *
      * ```typescript
      * const latitude = 35.6175667;
@@ -36,5 +38,27 @@ declare class Client {
      *
      */
     getForecast(latitude: number, longitude: number, forecastType: ForecastType): Promise<ForecastResponse>;
+    /**
+     * Get the closest weather stations for a given latitude and longitude.
+     *
+     * ```typescript
+     * const latitude = 35.6175667;
+     * const longitude = -80.7709911;
+     * const stations = await client.getStations(latitude, longitude);
+     * ```
+     *
+     */
+    getStations(latitude: number, longitude: number): Promise<StationsResponse>;
+    /**
+     * Get the closest weather station for a given latitude and longitude.
+     *
+     * ```typescript
+     * const latitude = 35.6175667;
+     * const longitude = -80.7709911;
+     * const stationOrNull = await client.getNearestStation(latitude, longitude);
+     * ```
+     *
+     */
+    getNearestStation(latitude: number, longitude: number): Promise<Station | null>;
 }
 export { Client };

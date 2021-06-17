@@ -52,6 +52,29 @@ type PointResponse = {
   properties: {
     forecast: string;
     forecastHourly: string;
+    observationStations: string;
+  }
+}
+
+type Station = {
+  id: string;
+}
+
+type StationsResponse = {
+  features: Station[];
+}
+
+type PresentWeather = {
+  [key: string]: string | null;
+}
+
+type ObservationResponse = {
+  properties: {
+    presentWeather: PresentWeather[],
+    temperature: {
+      value: number;
+      unitCode: string;
+    }
   }
 }
 
@@ -70,6 +93,7 @@ type ForecastPeriod = {
   shortForecast: string;
   detailedForecast: string;
 }
+
 type ForecastProperties = {
   updated: string;
   units: string;
@@ -104,4 +128,4 @@ type AlertsResponse = {
   features: AlertsFeature[];
 }
 
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, AlertsResponse, AlertsFeature };
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, Station, StationsResponse, AlertsResponse, AlertsFeature };
