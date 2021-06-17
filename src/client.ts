@@ -3,9 +3,6 @@ import fetch from 'cross-fetch';
 import Cache from './cache';
 import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, AlertOptions } from './types';
 
-class PointCache extends Cache<PointResponse>{}
-class StationsCache extends Cache<StationsResponse>{}
-
 const defaultOptions: ClientOptions = {
   userAgent: 'weathered package'
 };
@@ -40,13 +37,13 @@ const processOptions = (options: AlertOptions) => {
  */
 class Client {
   private options: ClientOptions;
-  private pointCache: PointCache;
-  private stationsCache: StationsCache;
+  private pointCache: Cache<PointResponse>;
+  private stationsCache: Cache<StationsResponse>;
   
   constructor(options?: ClientOptions) {
     this.options = {...defaultOptions, ...options};
-    this.pointCache = new PointCache();
-    this.stationsCache = new StationsCache();
+    this.pointCache = new Cache<PointResponse>();
+    this.stationsCache = new Cache<StationsResponse>();
   }
 
   private getPath(path: string) {

@@ -1,4 +1,4 @@
-abstract class Cache<T> {
+class Cache<T> {
   private items: { [key: string]: T; };
 
   constructor() {

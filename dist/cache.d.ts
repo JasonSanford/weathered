@@ -1,4 +1,4 @@
-declare abstract class Cache<T> {
+declare class Cache<T> {
     private items;
     constructor();
     get(key: string): T | undefined;
