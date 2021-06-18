@@ -58,6 +58,10 @@ type PointResponse = {
 
 type Station = {
   id: string;
+  properties: {
+    name: string;
+    stationIdentifier: string;
+  };
 }
 
 type StationsResponse = {
@@ -68,14 +72,29 @@ type PresentWeather = {
   [key: string]: string | null;
 }
 
+type Measure = {
+  value: number;
+  unitCode: string;
+}
+
 type ObservationResponse = {
   properties: {
-    presentWeather: PresentWeather[],
-    temperature: {
-      value: number;
-      unitCode: string;
-    }
+    presentWeather: PresentWeather[];
+    temperature: Measure;
+    barometricPressure: Measure;
+    seaLevelPressure: Measure;
+    dewpoint: Measure;
+    windDirection: Measure;
+    windSpeed: Measure;
+    windGust: Measure;
+    visibility: Measure;
+    relativeHumidity: Measure;
+    heatIndex: Measure;
   }
+}
+
+type ObservationsResponse = {
+  features: ObservationResponse[];
 }
 
 type ForecastPeriod = {
@@ -128,4 +147,4 @@ type AlertsResponse = {
   features: AlertsFeature[];
 }
 
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, Station, StationsResponse, AlertsResponse, AlertsFeature };
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, Station, StationsResponse, AlertsResponse, AlertsFeature, ObservationsResponse, ObservationResponse, Measure };

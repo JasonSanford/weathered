@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 
 import Cache from './cache';
-import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, AlertOptions } from './types';
+import { ClientOptions, PointResponse, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, ObservationResponse, ObservationsResponse, AlertOptions } from './types';
 
 const defaultOptions: ClientOptions = {
   userAgent: 'weathered package'
@@ -154,6 +154,28 @@ class Client {
     }
 
     return null;
+  }
+
+  /**
+   * Get weather observations for a given station.
+   * 
+   * ```typescript
+   * const observations = await client.getStationObservations('KSFO');
+   * ```
+   */
+  getStationObservations(stationId: string): Promise<ObservationsResponse> {
+    return this.getPath(`stations/${stationId}/observations`);
+  }
+
+  /**
+   * Get latest weather observation for a given station.
+   * 
+   * ```typescript
+   * const latestObservation = await client.getLatestStationObservations('KSFO');
+   * ```
+   */
+  getLatestStationObservations(stationId: string): Promise<ObservationResponse> {
+    return this.getPath(`stations/${stationId}/observations/latest`);
   }
 }
 

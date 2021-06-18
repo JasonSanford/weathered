@@ -1,4 +1,4 @@
-import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, AlertOptions } from './types';
+import { ClientOptions, ForecastResponse, AlertsResponse, ForecastType, StationsResponse, Station, ObservationResponse, ObservationsResponse, AlertOptions } from './types';
 /**
  * The main client
  *
@@ -60,5 +60,21 @@ declare class Client {
      *
      */
     getNearestStation(latitude: number, longitude: number): Promise<Station | null>;
+    /**
+     * Get weather observations for a given station.
+     *
+     * ```typescript
+     * const observations = await client.getStationObservations('KSFO');
+     * ```
+     */
+    getStationObservations(stationId: string): Promise<ObservationsResponse>;
+    /**
+     * Get latest weather observation for a given station.
+     *
+     * ```typescript
+     * const latestObservation = await client.getLatestStationObservations('KSFO');
+     * ```
+     */
+    getLatestStationObservations(stationId: string): Promise<ObservationResponse>;
 }
 export { Client };
