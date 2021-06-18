@@ -74,3 +74,37 @@ forecast.properties.periods.forEach(period => {
 // Today Partly sunny, with a high near 86. Northeast wind 2 to 6 mph.
 // Tonight Partly cloudy, with a low around 68. South southeast wind around 3 mph.
 ```
+
+### Get the closest weather stations for a given latitude and longitude
+
+```javascript
+const stations = await client.getStations(latitude, longitude);
+stations.features.forEach(station => console.log(station.properties.name));
+// San Francisco, San Francisco International Airport
+// SAN FRANCISCO DOWNTOWN
+// Half Moon Bay Airport
+```
+
+### Get the closest weather station for a given latitude and longitude
+
+```javascript
+const nearestStation = await client.getNearestStation(latitude, longitude);
+if (nearestStation) {
+  console.log(nearestStation.properties.stationIdentifier);
+}
+// KSFO
+```
+
+### Get weather observations for a given station
+
+```javascript
+const nearestStation = await client.getNearestStation(latitude, longitude);
+if (nearestStation) {
+  const { stationIdentifier } = nearestStation.properties;
+  const observations = await client.getStationObservations(stationIdentifier);
+  observations.features.forEach(obs => console.log(obs.properties.temperature));
+  // { value: 16.1, unitCode: 'unit:degC', qualityControl: 'qc:V' }
+  // { value: 16.7, unitCode: 'unit:degC', qualityControl: 'qc:V' }
+  // { value: 17.2, unitCode: 'unit:degC', qualityControl: 'qc:V' }
+}
+```
