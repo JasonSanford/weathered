@@ -108,3 +108,11 @@ if (nearestStation) {
   // { value: 17.2, unitCode: 'unit:degC', qualityControl: 'qc:V' }
 }
 ```
+
+### Get the latest weather observation for a given station
+
+```javascript
+const latestObservation = await client.getLatestStationObservations('KSFO');
+console.log(latestObservation.properties.relativeHumidity);
+// { value: 64.486025639597, unitCode: 'unit:percent', qualityControl: 'qc:V' }
+```
