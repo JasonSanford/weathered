@@ -130,5 +130,25 @@ class Client {
         }
         return null;
     }
+    /**
+     * Get weather observations for a given station.
+     *
+     * ```typescript
+     * const observations = await client.getStationObservations('KSFO');
+     * ```
+     */
+    getStationObservations(stationId) {
+        return this.getPath(`stations/${stationId}/observations`);
+    }
+    /**
+     * Get latest weather observation for a given station.
+     *
+     * ```typescript
+     * const latestObservation = await client.getLatestStationObservations('KSFO');
+     * ```
+     */
+    getLatestStationObservations(stationId) {
+        return this.getPath(`stations/${stationId}/observations/latest`);
+    }
 }
 exports.Client = Client;
