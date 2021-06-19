@@ -43,5 +43,6 @@
       "<rootDir>/dist/",
       "<rootDir>/node_modules/"
     ]
-  }
+  },
+  "repository": "JasonSanford/weathered"
 }

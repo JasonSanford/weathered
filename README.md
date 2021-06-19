@@ -2,9 +2,11 @@
 
 A JavaScript wrapper for the [National Weather Service API](https://www.weather.gov/documentation/services-web-api) - built with TypeScript.
 
+[Source code](https://github.com/JasonSanford/weathered)
+
 ## Documentation
 
-Extensive typedoc generated documentation here - [documentation](https://jasonsanford.github.io/weathered/)
+A couple examples are below. There is also extensive typedoc generated [documentation](https://jasonsanford.github.io/weathered/).
 
 ## Installation
 
