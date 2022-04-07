@@ -40,6 +40,10 @@ declare type Station = {
         name: string;
         stationIdentifier: string;
     };
+    geometry: {
+        type: 'Point';
+        coordinates: [number, number];
+    };
 };
 declare type StationsResponse = {
     features: Station[];

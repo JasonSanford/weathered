@@ -62,6 +62,10 @@ type Station = {
     name: string;
     stationIdentifier: string;
   };
+  geometry: {
+    type: 'Point';
+    coordinates: [number, number];
+};
 }
 
 type StationsResponse = {
