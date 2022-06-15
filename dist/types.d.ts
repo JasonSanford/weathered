@@ -104,6 +104,12 @@ declare type ForecastProperties = {
 declare type ForecastResponse = {
     properties: ForecastProperties;
 };
+declare type AlertsFeatureReference = {
+    '@id': string;
+    identifier: string;
+    sender: string;
+    sent: string;
+};
 declare type AlertsFeature = {
     id: string;
     geometry: {
@@ -116,6 +122,30 @@ declare type AlertsFeature = {
         effective: string;
         expries: string;
         description: string;
+        parameters?: {
+            [key: string]: any[];
+        };
+        id: string;
+        geocode: {
+            [key: string]: string[];
+        };
+        affectedZones: string[];
+        references: AlertsFeatureReference[];
+        onset: string;
+        expires: string;
+        ends: string;
+        status: string;
+        messageType: string;
+        category: string;
+        severity: string;
+        certainty: string;
+        urgency: string;
+        event: string;
+        sender: string;
+        senderName: string;
+        headline: string;
+        instruction: string;
+        response: string;
     };
 };
 declare type AlertsResponse = {

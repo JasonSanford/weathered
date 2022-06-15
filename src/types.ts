@@ -132,6 +132,13 @@ type ForecastResponse = {
   properties: ForecastProperties;
 }
 
+type AlertsFeatureReference = {
+  '@id': string;
+  identifier: string;
+  sender: string;
+  sent: string;
+};
+
 type AlertsFeature = {
   id: string;
   geometry: {
@@ -144,6 +151,30 @@ type AlertsFeature = {
     effective: string;
     expries: string;
     description: string;
+    parameters?: {
+      [key: string]: any[];
+    };
+    id: string;
+    geocode: {
+      [key: string]: string[];
+    };
+    affectedZones: string[];
+    references: AlertsFeatureReference[];
+    onset: string;
+    expires: string;
+    ends: string;
+    status: string;
+    messageType: string;
+    category: string;
+    severity: string;
+    certainty: string;
+    urgency: string;
+    event: string;
+    sender: string;
+    senderName: string;
+    headline: string;
+    instruction: string;
+    response: string;
   };
 }
 
