@@ -1,12 +1,12 @@
-declare type ForecastType = 'hourly' | 'baseline';
-declare type Area = 'AL' | 'AK' | 'AS' | 'AR' | 'AZ' | 'CA' | 'CO' | 'CT' | 'DE' | 'DC' | 'FL' | 'GA' | 'GU' | 'HI' | 'ID' | 'IL' | 'IN' | 'IA' | 'KS' | 'KY' | 'LA' | 'ME' | 'MD' | 'MA' | 'MI' | 'MN' | 'MS' | 'MO' | 'MT' | 'NE' | 'NV' | 'NH' | 'NJ' | 'NM' | 'NY' | 'NC' | 'ND' | 'OH' | 'OK' | 'OR' | 'PA' | 'PR' | 'RI' | 'SC' | 'SD' | 'TN' | 'TX' | 'UT' | 'VT' | 'VI' | 'VA' | 'WA' | 'WV' | 'WI' | 'WY' | 'PZ' | 'PK' | 'PH' | 'PS' | 'PM' | 'AN' | 'AM' | 'GM' | 'LS' | 'LM' | 'LH' | 'LC' | 'LE' | 'LO';
-declare type Region = 'AL' | 'AT' | 'GL' | 'GM' | 'PA' | 'PI';
-declare type RegionType = 'land' | 'marine';
-declare type Urgency = 'immediate' | 'expected' | 'future' | 'past' | 'unknown';
+declare type ForecastType = "hourly" | "baseline";
+declare type Area = "AL" | "AK" | "AS" | "AR" | "AZ" | "CA" | "CO" | "CT" | "DE" | "DC" | "FL" | "GA" | "GU" | "HI" | "ID" | "IL" | "IN" | "IA" | "KS" | "KY" | "LA" | "ME" | "MD" | "MA" | "MI" | "MN" | "MS" | "MO" | "MT" | "NE" | "NV" | "NH" | "NJ" | "NM" | "NY" | "NC" | "ND" | "OH" | "OK" | "OR" | "PA" | "PR" | "RI" | "SC" | "SD" | "TN" | "TX" | "UT" | "VT" | "VI" | "VA" | "WA" | "WV" | "WI" | "WY" | "PZ" | "PK" | "PH" | "PS" | "PM" | "AN" | "AM" | "GM" | "LS" | "LM" | "LH" | "LC" | "LE" | "LO";
+declare type Region = "AL" | "AT" | "GL" | "GM" | "PA" | "PI";
+declare type RegionType = "land" | "marine";
+declare type Urgency = "immediate" | "expected" | "future" | "past" | "unknown";
 declare type Without<T, U> = {
     [P in Exclude<keyof T, keyof U>]?: never;
 };
-declare type XOR<T, U> = (T | U) extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
+declare type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
 declare type AreaOption = {
     area?: Area | Area[];
 };
@@ -41,7 +41,7 @@ declare type Station = {
         stationIdentifier: string;
     };
     geometry: {
-        type: 'Point';
+        type: "Point";
         coordinates: [number, number];
     };
 };
@@ -105,7 +105,7 @@ declare type ForecastResponse = {
     properties: ForecastProperties;
 };
 declare type AlertsFeatureReference = {
-    '@id': string;
+    "@id": string;
     identifier: string;
     sender: string;
     sent: string;
@@ -113,7 +113,7 @@ declare type AlertsFeatureReference = {
 declare type AlertsFeature = {
     id: string;
     geometry: {
-        type: 'Polygon';
+        type: "Polygon";
         coordinates: number[][];
     };
     properties: {
@@ -151,4 +151,4 @@ declare type AlertsFeature = {
 declare type AlertsResponse = {
     features: AlertsFeature[];
 };
-export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, Station, StationsResponse, AlertsResponse, AlertsFeature, ObservationsResponse, ObservationResponse, Measure };
+export { ForecastType, Area, Region, RegionType, Urgency, AlertOptions, ClientOptions, PointResponse, ForecastResponse, ForecastProperties, Station, StationsResponse, AlertsResponse, AlertsFeature, ObservationsResponse, ObservationResponse, Measure, ForecastPeriod, };
