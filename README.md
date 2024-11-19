@@ -2,7 +2,7 @@
 
 A JavaScript wrapper for the [National Weather Service API](https://www.weather.gov/documentation/services-web-api) - built with TypeScript.
 
-[![CircleCI](https://circleci.com/gh/JasonSanford/weathered.svg?style=svg)](https://circleci.com/gh/JasonSanford/weathered)
+![Status](https://github.com/JasonSanford/weathered/actions/workflows/ci.yml/badge.svg)
 
 [Source code](https://github.com/JasonSanford/weathered)
 
