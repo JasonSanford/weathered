@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Node it
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          ref: ${{ github.head_ref }}
+      - name: Install it
+        run: npm install
+      - name: Build it
+        run: npm run build
+      - name: Test it
+        run: npm run test
